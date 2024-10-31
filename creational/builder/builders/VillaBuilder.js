@@ -1,30 +1,43 @@
-const House = require('../House');
+const Villa = require('./../houses/Villa')
 const HouseBuilder = require('./HouseBuilder');
 
 class VillaBuilder extends HouseBuilder {
     constructor() {
       super();
-      this.house = new House();
+      this.villa = new Villa();
     }
   
     setRooms(quantity) { 
-        this.house.rooms = quantity; return this; 
+        this.villa.rooms = quantity; 
+        return this;
     }
     setFloors(quantity) { 
-        this.house.floors = quantity; return this; 
+        this.villa.floors = quantity; 
+        return this; 
     }
     setGarden(hasGarden) { 
-        this.house.hasGarden = hasGarden; return this; 
+        this.villa.hasGarden = hasGarden; 
+        return this; 
     }
     setGarage(hasGarage) { 
-        this.house.hasGarage = hasGarage; return this; 
+        this.villa.hasGarage = hasGarage; 
+        return this; 
+    }
+    setTerrace(hasTerrace) { 
+        this.villa.hasTerrace = hasTerrace; 
+        return this; 
+    }
+    setGym(hasGym) { 
+        this.villa.hasGym = hasGym; 
+        return this; 
     }
     setPool(hasPool) { 
-        this.house.hasPool = hasPool; return this; 
+        this.villa.hasPool = hasPool; 
+        return this; 
     }
   
     build() { 
-        return this.house; 
+        return this.villa; 
     }
   }
 

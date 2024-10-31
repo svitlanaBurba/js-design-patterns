@@ -4,6 +4,7 @@ class HouseBuilder {
       if (this.constructor.name === 'HouseBuilder')
         throw new Error('HouseBuilder should not be instantiated directly!');
     }
+
     setRooms(quantity) {
         throw new Error('Method not implemented');
     }
@@ -16,9 +17,7 @@ class HouseBuilder {
     setGarage(hasGarage) {
         throw new Error('Method not implemented');
     }
-    setPool(hasPool) {
-        throw new Error('Method not implemented');
-    }
+
     build() {
          throw new Error('Method not implemented');
         }
