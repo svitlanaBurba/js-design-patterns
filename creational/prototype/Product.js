@@ -5,7 +5,7 @@ class Product {
     }
 
     clone() {
-        return new this.constructor(this.name, this.price)
+        return new this.constructor(this.name, this.price);
     }
 
     static registry = {};
