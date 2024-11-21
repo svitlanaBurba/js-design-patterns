@@ -13,3 +13,4 @@ class PaymentAdapter {
 }
 
 module.exports = PaymentAdapter;
+

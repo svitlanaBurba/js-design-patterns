@@ -112,12 +112,14 @@ const Stripe = require('./structural/bridge/implementation/Stripe');
 // Example 1: Web Payment with PayPal
 const paypal = new PayPal();
 const webPaymentWithPayPal = new WebPayment(paypal);
-console.log(webPaymentWithPayPal.process(150));
+console.log(webPaymentWithPayPal.process(150)); //WebPayment: Initiating payment on Web platform... \n PayPal: Processing payment of $150.
 
 // Example 2: Mobile Payment with Stripe
 const stripe = new Stripe();
 const mobilePaymentWithStripe = new MobilePayment(stripe);
-console.log(mobilePaymentWithStripe.process(300));
+console.log(mobilePaymentWithStripe.process(300)); // MobilePayment: Initiating payment on Mobile platform... \n Stripe: Processing payment of $300.
+
+
 
 
 

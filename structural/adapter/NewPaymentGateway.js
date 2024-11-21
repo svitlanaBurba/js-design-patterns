@@ -5,3 +5,4 @@ class NewPaymentGateway {
 }
 
 module.exports = NewPaymentGateway;
+
