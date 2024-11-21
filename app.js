@@ -65,22 +65,59 @@
 
 
 // ABSTRACT FACTORY
-const CreditCardFactory = require('./creational/abstract_factory/CreditCardFactory');
-const PayPalFactory = require('./creational/abstract_factory/PayPalFactory');
+// const CreditCardFactory = require('./creational/abstract_factory/CreditCardFactory');
+// const PayPalFactory = require('./creational/abstract_factory/PayPalFactory');
 
-function processOrder(factory, amount) {
-    const processor = factory.createPaymentProcessor();
-    const logger = factory.createTransactionLogger();
+// function processOrder(factory, amount) {
+//     const processor = factory.createPaymentProcessor();
+//     const logger = factory.createTransactionLogger();
 
-    console.log(processor.process(amount));
-    console.log(logger.logTransaction(`Payment of $${amount} completed.`));
-}
+//     console.log(processor.process(amount));
+//     console.log(logger.logTransaction(`Payment of $${amount} completed.`));
+// }
 
-console.log("Processing order with Credit Card.");
-processOrder(new CreditCardFactory(), 100);
+// console.log("Processing order with Credit Card.");
+// processOrder(new CreditCardFactory(), 100);
 
-console.log("Processing order with PayPal.");
-processOrder(new PayPalFactory(), 200);
+// console.log("Processing order with PayPal.");
+// processOrder(new PayPalFactory(), 200);
+
+
+//STRUCTURAL PATTERNS
+
+// //ADAPTER
+// const ExistingPaymentProcessor = require('./structural/adapter/ExistingPaymentProcessor');
+// const NewPaymentGateway = require('./structural/adapter/NewPaymentGateway');
+// const PaymentAdapter = require('./structural/adapter/PaymentAdapter');
+
+// function processOrder(paymentProcessor, amount, currency) {
+//     paymentProcessor.processPayment(amount, currency);
+// }
+
+// // Using the existing payment processor
+// const oldProcessor = new ExistingPaymentProcessor();
+// processOrder(oldProcessor, 100, 'USD'); //Processing payment of 100 USD via the existing processor.
+
+// // Using the new payment gateway via the adapter
+// const newGateway = new NewPaymentGateway();
+// const adapter = new PaymentAdapter(newGateway);
+// processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new payment gateway.
+
+//BRIDGE
+const WebPayment = require('./structural/bridge/abstraction/WebPayment');
+const MobilePayment = require('./structural/bridge/abstraction/MobilePayment');
+const PayPal = require('./structural/bridge/implementation/PayPal');
+const Stripe = require('./structural/bridge/implementation/Stripe');
+
+// Example 1: Web Payment with PayPal
+const paypal = new PayPal();
+const webPaymentWithPayPal = new WebPayment(paypal);
+console.log(webPaymentWithPayPal.process(150));
+
+// Example 2: Mobile Payment with Stripe
+const stripe = new Stripe();
+const mobilePaymentWithStripe = new MobilePayment(stripe);
+console.log(mobilePaymentWithStripe.process(300));
 
 
 
