@@ -1,5 +1,7 @@
-class PaymentAdapter {
+const ExistingPaymentProcessor = require('./ExistingPaymentProcessor');
+class PaymentAdapter extends ExistingPaymentProcessor {
     constructor(newPaymentGateway) {
+        super();
         this.newPaymentGateway = newPaymentGateway;
     }
 

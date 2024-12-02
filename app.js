@@ -85,39 +85,39 @@
 
 //STRUCTURAL PATTERNS
 
-// //ADAPTER
-// const ExistingPaymentProcessor = require('./structural/adapter/ExistingPaymentProcessor');
-// const NewPaymentGateway = require('./structural/adapter/NewPaymentGateway');
-// const PaymentAdapter = require('./structural/adapter/PaymentAdapter');
+//ADAPTER
+const ExistingPaymentProcessor = require('./structural/adapter/ExistingPaymentProcessor');
+const NewPaymentGateway = require('./structural/adapter/NewPaymentGateway');
+const PaymentAdapter = require('./structural/adapter/PaymentAdapter');
 
-// function processOrder(paymentProcessor, amount, currency) {
-//     paymentProcessor.processPayment(amount, currency);
-// }
+function processOrder(paymentProcessor, amount, currency) {
+    paymentProcessor.processPayment(amount, currency);
+}
 
-// // Using the existing payment processor
-// const oldProcessor = new ExistingPaymentProcessor();
-// processOrder(oldProcessor, 100, 'USD'); //Processing payment of 100 USD via the existing processor.
+// Using the existing payment processor
+const oldProcessor = new ExistingPaymentProcessor();
+processOrder(oldProcessor, 100, 'USD'); //Processing payment of 100 USD via the existing processor.
 
-// // Using the new payment gateway via the adapter
-// const newGateway = new NewPaymentGateway();
-// const adapter = new PaymentAdapter(newGateway);
-// processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new payment gateway.
+// Using the new payment gateway via the adapter
+const newGateway = new NewPaymentGateway();
+const adapter = new PaymentAdapter(newGateway);
+processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new payment gateway.
 
-//BRIDGE
-const WebPayment = require('./structural/bridge/abstraction/WebPayment');
-const MobilePayment = require('./structural/bridge/abstraction/MobilePayment');
-const PayPal = require('./structural/bridge/implementation/PayPal');
-const Stripe = require('./structural/bridge/implementation/Stripe');
+// //BRIDGE
+// const WebPayment = require('./structural/bridge/abstraction/WebPayment');
+// const MobilePayment = require('./structural/bridge/abstraction/MobilePayment');
+// const PayPal = require('./structural/bridge/implementation/PayPal');
+// const Stripe = require('./structural/bridge/implementation/Stripe');
 
-// Example 1: Web Payment with PayPal
-const paypal = new PayPal();
-const webPaymentWithPayPal = new WebPayment(paypal);
-console.log(webPaymentWithPayPal.process(150)); //WebPayment: Initiating payment on Web platform... \n PayPal: Processing payment of $150.
+// // Example 1: Web Payment with PayPal
+// const paypal = new PayPal();
+// const webPaymentWithPayPal = new WebPayment(paypal);
+// console.log(webPaymentWithPayPal.process(150)); //WebPayment: Initiating payment on Web platform... \n PayPal: Processing payment of $150.
 
-// Example 2: Mobile Payment with Stripe
-const stripe = new Stripe();
-const mobilePaymentWithStripe = new MobilePayment(stripe);
-console.log(mobilePaymentWithStripe.process(300)); // MobilePayment: Initiating payment on Mobile platform... \n Stripe: Processing payment of $300.
+// // Example 2: Mobile Payment with Stripe
+// const stripe = new Stripe();
+// const mobilePaymentWithStripe = new MobilePayment(stripe);
+// console.log(mobilePaymentWithStripe.process(300)); // MobilePayment: Initiating payment on Mobile platform... \n Stripe: Processing payment of $300.
 
 
 
