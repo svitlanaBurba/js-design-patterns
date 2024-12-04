@@ -85,23 +85,23 @@
 
 //STRUCTURAL PATTERNS
 
-//ADAPTER
-const ExistingPaymentProcessor = require('./structural/adapter/ExistingPaymentProcessor');
-const NewPaymentGateway = require('./structural/adapter/NewPaymentGateway');
-const PaymentAdapter = require('./structural/adapter/PaymentAdapter');
+// //ADAPTER
+// const ExistingPaymentProcessor = require('./structural/adapter/ExistingPaymentProcessor');
+// const NewPaymentGateway = require('./structural/adapter/NewPaymentGateway');
+// const PaymentAdapter = require('./structural/adapter/PaymentAdapter');
 
-function processOrder(paymentProcessor, amount, currency) {
-    paymentProcessor.processPayment(amount, currency);
-}
+// function processOrder(paymentProcessor, amount, currency) {
+//     paymentProcessor.processPayment(amount, currency);
+// }
 
-// Using the existing payment processor
-const oldProcessor = new ExistingPaymentProcessor();
-processOrder(oldProcessor, 100, 'USD'); //Processing payment of 100 USD via the existing processor.
+// // Using the existing payment processor
+// const oldProcessor = new ExistingPaymentProcessor();
+// processOrder(oldProcessor, 100, 'USD'); //Processing payment of 100 USD via the existing processor.
 
-// Using the new payment gateway via the adapter
-const newGateway = new NewPaymentGateway();
-const adapter = new PaymentAdapter(newGateway);
-processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new payment gateway.
+// // Using the new payment gateway via the adapter
+// const newGateway = new NewPaymentGateway();
+// const adapter = new PaymentAdapter(newGateway);
+// processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new payment gateway.
 
 // //BRIDGE
 // const WebPayment = require('./structural/bridge/abstraction/WebPayment');
@@ -118,6 +118,74 @@ processOrder(adapter, 200, 'EUR'); //Processing payment of 200 EUR via the new p
 // const stripe = new Stripe();
 // const mobilePaymentWithStripe = new MobilePayment(stripe);
 // console.log(mobilePaymentWithStripe.process(300)); // MobilePayment: Initiating payment on Mobile platform... \n Stripe: Processing payment of $300.
+
+
+// // PROXY
+// const ProxyProductService = require('./structural/proxy/RealProductService');
+
+// (async () => {
+//   const productService = new ProxyProductService();
+
+//   // First call - cache miss, fetches from database
+//   const product1 = await productService.getProduct(1);
+//   console.log('Product 1:', product1);
+
+//   // Second call - cache hit, returns cached product
+//   const product1Again = await productService.getProduct(1);
+//   console.log('Product 1 again:', product1Again);
+
+//   // Fetch another product - cache miss
+//   const product2 = await productService.getProduct(2);
+//   console.log('Product 2:', product2);
+// })();
+
+
+// // DECORATOR
+// const BaseProduct = require('./structural/decorator/BaseProduct');
+// const SeasonalDiscountDecorator = require('./structural/decorator/decorators/SeasonalDiscountDecorator');
+// const LoyaltyDiscountDecorator = require('./structural/decorator/decorators/LoyaltyDiscountDecorator');
+// const ExpressShippingDecorator = require('./structural/decorator/decorators/ExpressShippingDecorator');
+
+// // Create a base product
+// let product = new BaseProduct(100, 'Bag');
+
+// // Apply a 20% seasonal discount
+// product = new SeasonalDiscountDecorator(product, 20);
+
+// // Apply a loyalty discount of $10
+// product = new LoyaltyDiscountDecorator(product, 10);
+
+// // Apply an express shipping fee of $15
+// product = new ExpressShippingDecorator(product, 15);
+
+// // Display final price and description
+// console.log('Final Price:', product.getPrice()); //85
+// console.log('Product Description:', product.getDescription()); //Bag (Seasonal Discount Applied: 20%) (Loyalty Discount Applied: $10) (Express Shipping Fee: $15)
+
+
+// COMPOSITE
+const Product = require('./structural/composite/Product');
+const Box = require('./structural/composite/Box');
+
+// Create individual products
+const bag = new Product('Bag', 200);
+const shoes = new Product('Shoes', 150);
+const wallet = new Product('Wallet', 50);
+
+// Create a box to hold multiple products
+const smallBox = new Box('Small Box');
+smallBox.add(bag);
+smallBox.add(wallet);
+
+// Create another box that contains a mix of products and smaller boxes
+const bigBox = new Box('Big Box');
+bigBox.add(shoes);
+bigBox.add(smallBox);
+
+// Display the total price of the big box
+console.log('Contents of Big Box:', bigBox.getContents()); //Contents of Big Box: [ 'Shoes', 'Small Box' ]
+console.log('Total Price of Big Box:', bigBox.getPrice()); //Total Price of Big Box: 400
+
 
 
 
