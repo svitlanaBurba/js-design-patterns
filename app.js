@@ -163,28 +163,136 @@
 // console.log('Product Description:', product.getDescription()); //Bag (Seasonal Discount Applied: 20%) (Loyalty Discount Applied: $10) (Express Shipping Fee: $15)
 
 
-// COMPOSITE
-const Product = require('./structural/composite/Product');
-const Box = require('./structural/composite/Box');
+// // COMPOSITE
+// const Product = require('./structural/composite/Product');
+// const Box = require('./structural/composite/Box');
 
-// Create individual products
-const bag = new Product('Bag', 200);
-const shoes = new Product('Shoes', 150);
-const wallet = new Product('Wallet', 50);
+// // Create individual products
+// const bag = new Product('Bag', 200);
+// const shoes = new Product('Shoes', 150);
+// const wallet = new Product('Wallet', 50);
 
-// Create a box to hold multiple products
-const smallBox = new Box('Small Box');
-smallBox.add(bag);
-smallBox.add(wallet);
+// // Create a box to hold multiple products
+// const smallBox = new Box('Small Box');
+// smallBox.add(bag);
+// smallBox.add(wallet);
 
-// Create another box that contains a mix of products and smaller boxes
-const bigBox = new Box('Big Box');
-bigBox.add(shoes);
-bigBox.add(smallBox);
+// // Create another box that contains a mix of products and smaller boxes
+// const bigBox = new Box('Big Box');
+// bigBox.add(shoes);
+// bigBox.add(smallBox);
 
-// Display the total price of the big box
-console.log('Contents of Big Box:', bigBox.getContents()); //Contents of Big Box: [ 'Shoes', 'Small Box' ]
-console.log('Total Price of Big Box:', bigBox.getPrice()); //Total Price of Big Box: 400
+// // Display the total price of the big box
+// console.log('Contents of Big Box:', bigBox.getContents()); //Contents of Big Box: [ 'Shoes', 'Small Box' ]
+// console.log('Total Price of Big Box:', bigBox.getPrice()); //Total Price of Big Box: 400
+
+
+// // FLYWEIGHT
+// const Product = require('./structural/flyweight/Product');
+// const ProductFlyweightFactory = require('./structural/flyweight/ProductFlyweightFactory');
+
+// const factory = new ProductFlyweightFactory();
+// // Add products to the inventory
+// const products = [
+//     new Product('SKU12345', 199.99, 50, factory.getFlyweight('Electronics', 'Sony', 'TV')),
+//     new Product('SKU12346', 199.99, 20, factory.getFlyweight('Electronics', 'Sony', 'TV')),
+//     new Product('SKU78901', 29.99, 100, factory.getFlyweight('Accessories', 'Logitech', 'Mouse')),
+//     new Product('SKU78902', 49.99, 75, factory.getFlyweight('Accessories', 'Logitech', 'Keyboard')),
+// ];
+
+// products.forEach(product => product.display());
+
+// factory.listFlyweights();
+
+
+// FACADE
+// const OrderFacade = require('./structural/facade/OrderFacade');
+// const orderFacade = new OrderFacade();
+
+// const productId = '12345';
+// const amount = 49.99;
+// const address = '123 Main St, Anytown, USA';
+
+// orderFacade.placeOrder(productId, amount, address);
+
+
+//BEHAVIORAL PATTERNS
+
+// CHAIN OF RESPONSIBILITY
+const AuthenticationHandler = require('./behavioral/chainOfResponsibility/AuthenticationHandler');
+const StockCheckHandler = require('./behavioral/chainOfResponsibility/StockCheckHandler');
+const PaymentHandler = require('./behavioral/chainOfResponsibility/PaymentHandler');
+const OrderCompletionHandler = require('./behavioral/chainOfResponsibility/OrderCompletionHandler');
+
+// Create request
+const orderRequest = {
+    isAuthenticated: true,
+    items: [
+        { name: 'Laptop', inStock: true },
+        { name: 'Mouse', inStock: true },
+    ],
+    isPaymentSuccessful: true,
+};
+
+// Create chain of responsibility
+const authHandler = new AuthenticationHandler();
+const stockHandler = new StockCheckHandler();
+const paymentHandler = new PaymentHandler();
+const orderCompletionHandler = new OrderCompletionHandler();
+
+authHandler.setNext(stockHandler).setNext(paymentHandler).setNext(orderCompletionHandler);
+
+// Process the request
+console.log('Processing order...');
+const result = authHandler.handle(orderRequest);
+
+if (result) {
+    console.log('Order processed successfully.');
+} else {
+    console.log('Order processing failed.');
+}
+
+// // COMMAND
+// const ShoppingCart = require('./behavioral/command/ShoppingCart');
+// const AddToCartCommand = require('./behavioral/command/commands/AddToCartCommand');
+// const RemoveFromCartCommand = require('./behavioral/command/commands/RemoveFromCartCommand');
+// const ClearCartCommand = require('./behavioral/command/commands/ClearCartCommand');
+// const Button = require('./behavioral/command/Button');
+
+// // Create the cart (Receiver)
+// const cart = new ShoppingCart();
+
+// // Create commands
+// const addCommand = new AddToCartCommand(cart, 'Laptop');
+// const removeCommand = new RemoveFromCartCommand(cart, 'Laptop');
+// const clearCommand = new ClearCartCommand(cart);
+
+// // Create buttons (Invoker)
+// const addButton = new Button(addCommand);
+// const removeButton = new Button(removeCommand);
+// const clearButton = new Button(clearCommand);
+
+// // Simulate button clicks
+// console.log('Simulating storefront button actions:');
+// addButton.click();   // Add item
+// removeButton.click(); // Remove item
+// clearButton.click();  // Clear cart
+
+
+// // ITERATOR
+// const ProductCollection = require('./behavioral/iterator/ProductCollection');
+
+// const electronics = new ProductCollection();
+// electronics.addProduct('Laptop');
+// electronics.addProduct('Smartphone');
+// electronics.addProduct('Tablet');
+
+// const iterator = electronics.getIterator();
+// console.log('Products in the electronics category:');
+// while (iterator.hasNext()) {
+//     console.log(iterator.next());
+// }
+
 
 
 
