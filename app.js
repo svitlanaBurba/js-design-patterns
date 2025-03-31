@@ -216,41 +216,41 @@
 // orderFacade.placeOrder(productId, amount, address);
 
 
-//BEHAVIORAL PATTERNS
+// BEHAVIORAL PATTERNS
 
-// CHAIN OF RESPONSIBILITY
-const AuthenticationHandler = require('./behavioral/chainOfResponsibility/AuthenticationHandler');
-const StockCheckHandler = require('./behavioral/chainOfResponsibility/StockCheckHandler');
-const PaymentHandler = require('./behavioral/chainOfResponsibility/PaymentHandler');
-const OrderCompletionHandler = require('./behavioral/chainOfResponsibility/OrderCompletionHandler');
+// // CHAIN OF RESPONSIBILITY
+// const AuthenticationHandler = require('./behavioral/chainOfResponsibility/AuthenticationHandler');
+// const StockCheckHandler = require('./behavioral/chainOfResponsibility/StockCheckHandler');
+// const PaymentHandler = require('./behavioral/chainOfResponsibility/PaymentHandler');
+// const OrderCompletionHandler = require('./behavioral/chainOfResponsibility/OrderCompletionHandler');
 
-// Create request
-const orderRequest = {
-    isAuthenticated: true,
-    items: [
-        { name: 'Laptop', inStock: true },
-        { name: 'Mouse', inStock: true },
-    ],
-    isPaymentSuccessful: true,
-};
+// // Create request
+// const orderRequest = {
+//     isAuthenticated: true,
+//     items: [
+//         { name: 'Laptop', inStock: true },
+//         { name: 'Mouse', inStock: true },
+//     ],
+//     isPaymentSuccessful: true,
+// };
 
-// Create chain of responsibility
-const authHandler = new AuthenticationHandler();
-const stockHandler = new StockCheckHandler();
-const paymentHandler = new PaymentHandler();
-const orderCompletionHandler = new OrderCompletionHandler();
+// // Create chain of responsibility
+// const authHandler = new AuthenticationHandler();
+// const stockHandler = new StockCheckHandler();
+// const paymentHandler = new PaymentHandler();
+// const orderCompletionHandler = new OrderCompletionHandler();
 
-authHandler.setNext(stockHandler).setNext(paymentHandler).setNext(orderCompletionHandler);
+// authHandler.setNext(stockHandler).setNext(paymentHandler).setNext(orderCompletionHandler);
 
-// Process the request
-console.log('Processing order...');
-const result = authHandler.handle(orderRequest);
+// // Process the request
+// console.log('Processing order...');
+// const result = authHandler.handle(orderRequest);
 
-if (result) {
-    console.log('Order processed successfully.');
-} else {
-    console.log('Order processing failed.');
-}
+// if (result) {
+//     console.log('Order processed successfully.');
+// } else {
+//     console.log('Order processing failed.');
+// }
 
 // // COMMAND
 // const ShoppingCart = require('./behavioral/command/ShoppingCart');
@@ -292,6 +292,85 @@ if (result) {
 // while (iterator.hasNext()) {
 //     console.log(iterator.next());
 // }
+
+
+// // MEDIATOR
+// const Mediator = require('./behavioral/mediator/Mediator');
+// const Cart = require('./behavioral/mediator/Cart');
+// const Checkout = require('./behavioral/mediator/Checkout');
+// const Product = require('./behavioral/mediator/Product');
+
+// const mediator = new Mediator();
+
+// const cart = new Cart();
+// const checkout = new Checkout();
+// const product1 = new Product('Laptop', 1200);
+// const product2 = new Product('Phone', 800);
+
+// mediator.register(cart);
+// mediator.register(checkout);
+// mediator.register(product1);
+// mediator.register(product2);
+
+// product1.addToCart();
+// product2.addToCart();
+// checkout.startCheckout();
+
+
+// // OBSERVER
+// const Store = require('./behavioral/observer/Store');
+// const Customer = require('./behavioral/observer/Customer');
+
+// const store = new Store('TechStore');
+
+// const customer1 = new Customer('Alice');
+// const customer2 = new Customer('Bob');
+
+// // Customers subscribe to store notifications
+// store.events.subscribe('newProduct', customer1);
+// store.events.subscribe('newProduct', customer2);
+
+// // Store adds new products, triggering notifications
+// store.addProduct('iPhone 15');
+// store.addProduct('Samsung Galaxy S24');
+
+// // Unsubscribing a customer
+// store.events.unsubscribe('newProduct', customer2);
+
+// // Adding another product (only Alice should receive the notification)
+// store.addProduct('Google Pixel 8');
+
+
+// MEMENTO
+const Cart = require('./behavioral/memento/Cart');
+const Caretaker = require('./behavioral/memento/Caretaker');
+
+const cart = new Cart();
+const caretaker = new Caretaker();
+
+// Add items and save state
+cart.addItem('Laptop');
+caretaker.backup(cart);
+
+cart.addItem('Phone');
+caretaker.backup(cart);
+
+cart.addItem('Tablet');
+caretaker.backup(cart);
+
+// Show cart history
+caretaker.showHistory();
+
+// Undo last two changes
+console.log('\nUndoing last action...');
+caretaker.undo(cart);
+cart.showCart();
+
+console.log('\nUndoing one more action...');
+caretaker.undo(cart);
+cart.showCart();
+
+
 
 
 
