@@ -341,34 +341,71 @@
 // store.addProduct('Google Pixel 8');
 
 
-// MEMENTO
-const Cart = require('./behavioral/memento/Cart');
-const Caretaker = require('./behavioral/memento/Caretaker');
+// // MEMENTO
+// const Cart = require('./behavioral/memento/Cart');
+// const Caretaker = require('./behavioral/memento/Caretaker');
 
-const cart = new Cart();
-const caretaker = new Caretaker();
+// const cart = new Cart();
+// const caretaker = new Caretaker();
 
-// Add items and save state
-cart.addItem('Laptop');
-caretaker.backup(cart);
+// // Add items and save state
+// cart.addItem('Laptop');
+// caretaker.backup(cart);
 
-cart.addItem('Phone');
-caretaker.backup(cart);
+// cart.addItem('Phone');
+// caretaker.backup(cart);
 
-cart.addItem('Tablet');
-caretaker.backup(cart);
+// cart.addItem('Tablet');
+// caretaker.backup(cart);
 
-// Show cart history
-caretaker.showHistory();
+// // Show cart history
+// caretaker.showHistory();
 
-// Undo last two changes
-console.log('\nUndoing last action...');
-caretaker.undo(cart);
-cart.showCart();
+// // Undo last two changes
+// console.log('\nUndoing last action...');
+// caretaker.undo(cart);
+// cart.showCart();
 
-console.log('\nUndoing one more action...');
-caretaker.undo(cart);
-cart.showCart();
+// console.log('\nUndoing one more action...');
+// caretaker.undo(cart);
+// cart.showCart();
+
+
+// STATE
+const Order = require('./behavioral/state/Order');
+
+const order = new Order();
+
+console.log("Initial state: New");
+order.processOrder();  // Order is now processing.
+order.shipOrder();     // Order has been shipped.
+order.deliverOrder();  // Order delivered.
+
+order.cancelOrder();  // Order cannot be cancelled after delivery.
+
+
+// STRATEGY
+const Checkout = require('./behavioral/strategy/Checkout');
+const NoDiscountStrategy = require('./behavioral/strategy/NoDiscountStrategy');
+const PercentageDiscountStrategy = require('./behavioral/strategy/PercentageDiscountStrategy');
+const FixedDiscountStrategy = require('./behavioral/strategy/FixedDiscountStrategy');
+
+const orderTotal = 200;
+
+// Using no discount
+let checkout = new Checkout(orderTotal, new NoDiscountStrategy());
+console.log("No discount total: $" + checkout.calculateTotal());
+
+// Switching to a 10% discount strategy
+checkout.setDiscountStrategy(new PercentageDiscountStrategy(10));
+console.log("10% discount total: $" + checkout.calculateTotal());
+
+// Switching to a fixed $30 discount strategy
+checkout.setDiscountStrategy(new FixedDiscountStrategy(30));
+console.log("Fixed $30 discount total: $" + checkout.calculateTotal());
+
+
+
 
 
 
