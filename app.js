@@ -371,38 +371,70 @@
 // cart.showCart();
 
 
-// STATE
-const Order = require('./behavioral/state/Order');
+// // STATE
+// const Order = require('./behavioral/state/Order');
 
-const order = new Order();
+// const order = new Order();
 
-console.log("Initial state: New");
-order.processOrder();  // Order is now processing.
-order.shipOrder();     // Order has been shipped.
-order.deliverOrder();  // Order delivered.
+// console.log("Initial state: New");
+// order.processOrder();  // Order is now processing.
+// order.shipOrder();     // Order has been shipped.
+// order.deliverOrder();  // Order delivered.
 
-order.cancelOrder();  // Order cannot be cancelled after delivery.
+// order.cancelOrder();  // Order cannot be cancelled after delivery.
 
 
-// STRATEGY
-const Checkout = require('./behavioral/strategy/Checkout');
-const NoDiscountStrategy = require('./behavioral/strategy/NoDiscountStrategy');
-const PercentageDiscountStrategy = require('./behavioral/strategy/PercentageDiscountStrategy');
-const FixedDiscountStrategy = require('./behavioral/strategy/FixedDiscountStrategy');
+// // STRATEGY
+// const Checkout = require('./behavioral/strategy/Checkout');
+// const NoDiscountStrategy = require('./behavioral/strategy/NoDiscountStrategy');
+// const PercentageDiscountStrategy = require('./behavioral/strategy/PercentageDiscountStrategy');
+// const FixedDiscountStrategy = require('./behavioral/strategy/FixedDiscountStrategy');
 
-const orderTotal = 200;
+// const orderTotal = 200;
 
-// Using no discount
-let checkout = new Checkout(orderTotal, new NoDiscountStrategy());
-console.log("No discount total: $" + checkout.calculateTotal());
+// // Using no discount
+// let checkout = new Checkout(orderTotal, new NoDiscountStrategy());
+// console.log("No discount total: $" + checkout.calculateTotal());
 
-// Switching to a 10% discount strategy
-checkout.setDiscountStrategy(new PercentageDiscountStrategy(10));
-console.log("10% discount total: $" + checkout.calculateTotal());
+// // Switching to a 10% discount strategy
+// checkout.setDiscountStrategy(new PercentageDiscountStrategy(10));
+// console.log("10% discount total: $" + checkout.calculateTotal());
 
-// Switching to a fixed $30 discount strategy
-checkout.setDiscountStrategy(new FixedDiscountStrategy(30));
-console.log("Fixed $30 discount total: $" + checkout.calculateTotal());
+// // Switching to a fixed $30 discount strategy
+// checkout.setDiscountStrategy(new FixedDiscountStrategy(30));
+// console.log("Fixed $30 discount total: $" + checkout.calculateTotal());
+
+
+// TEMPLATE METHOD
+const PhysicalOrderProcessor = require('./behavioral/templateMethod/PhysicalOrderProcessor');
+const DigitalOrderProcessor = require('./behavioral/templateMethod/DigitalOrderProcessor');
+
+console.log('--- Physical Order ---');
+const physicalOrder = new PhysicalOrderProcessor();
+physicalOrder.processOrder();
+
+console.log('--- Digital Order ---');
+const digitalOrder = new DigitalOrderProcessor();
+digitalOrder.processOrder();
+
+
+// VISITOR
+const PhysicalProduct = require('./behavioral/visitor/DigitalProduct');
+const DigitalProduct = require('./behavioral/visitor/DigitalProduct');
+const TaxCalculatorVisitor = require('./behavioral/visitor/TaxCalculatorVisitor');
+
+const products = [
+    new PhysicalProduct('Laptop', 1500),
+    new DigitalProduct('E-book', 30),
+];
+
+const taxVisitor = new TaxCalculatorVisitor();
+
+console.log('--- Calculating Taxes ---');
+for (const product of products) {
+    product.accept(taxVisitor);
+}
+
 
 
 
